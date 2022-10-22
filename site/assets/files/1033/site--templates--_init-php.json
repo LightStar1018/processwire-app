@@ -1,0 +1,54 @@
+{
+    "file": "site\/\/templates\/\/_init.php",
+    "textdomain": "site--templates--_init-php",
+    "translations": {
+        "b1b5aabe6364ae72e17b7e8ce02d0d04": {
+            "text": "Yes I agree"
+        },
+        "07786852ebe98b3892ff73ac26336af8": {
+            "text": "No, more info"
+        },
+        "4f2b35e809af6815eddf0985f45db965": {
+            "text": "We use cookies to improve your user experience."
+        },
+        "35b09c454df154574ae9b6e0c001bb84": {
+            "text": "Search by product"
+        },
+        "81fb1546488497ca4fc07493f3f509ee": {
+            "text": "Search by business sector"
+        },
+        "5e7982ca822ad5002b48850520bea74d": {
+            "text": "No results found."
+        },
+        "4dfff35d2990d6283c7f031d7a51e64c": {
+            "text": "Back to the list"
+        },
+        "17de485d01eb9a2659031bd903d577be": {
+            "text": "To get informed of our latest news, please leave your e-mail address."
+        },
+        "a9c9921fea0e13e5eceac065f9bd7329": {
+            "text": "Subscribe"
+        },
+        "cec0cd69bc234d8d16f4187e2144cbd7": {
+            "text": "Read More"
+        },
+        "768e0b8ed4c703449f11ae6960e26268": {
+            "text": "Country"
+        },
+        "e0db0e636be686b15542c95ddc26a07e": {
+            "text": "Audiovisual technology"
+        },
+        "a13eeb297910839d23afa9bb297a50b7": {
+            "text": "Previous project"
+        },
+        "75bf799197059dbec2ce18c7f90709c5": {
+            "text": "Next project"
+        },
+        "b8a4aeaae8f5c072c9381b396029c4b6": {
+            "text": "USED PRODUCTS"
+        },
+        "4fcbbc851f7a3760f86ec23113cd3d59": {
+            "text": "CONFIGURATION"
+        }
+    }
+}

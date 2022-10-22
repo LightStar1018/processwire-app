@@ -1,0 +1,36 @@
+{
+    "file": "site\\templates\\_init.php",
+    "textdomain": "site--templates--_init-php",
+    "translations": {
+        "5e8e8465cd6f9c7d4c1c3817a8519be6": {
+            "text": "Mobilier : filtrez par produit"
+        },
+        "59b132fd0b15200e34d09411daf09c60": {
+            "text": "Filtrez par secteur d'activit\u00e9"
+        },
+        "3f24537d9d26ddf4fd334a881e46a0ec": {
+            "text": "Aucun r\u00e9sultat trouv\u00e9."
+        },
+        "790d59ef178acbc75d233bf4211763c6": {
+            "text": "Pays"
+        },
+        "f3021e048357e1f1e3784c3dc60f2eb0": {
+            "text": "Wallonie"
+        },
+        "9ff81fcbd911f7e11d91126e4a16d957": {
+            "text": "Autres pays"
+        },
+        "07fc7dc79c8046bb36d97b4332dab1ca": {
+            "text": "Retour \u00e0 la liste"
+        },
+        "614c724b2f01a34f50d7ba71f327cb29": {
+            "text": "Oui, je suis d'accord"
+        },
+        "f7a8aa0320d738ed21b0f635a3791c5a": {
+            "text": "Non, plus d'infos"
+        },
+        "96f58bae128f43ebceb5d5e502943665": {
+            "text": "Nous utilisons des cookies pour am\u00e9liorer votre exp\u00e9rience utilisateur."
+        }
+    }
+}

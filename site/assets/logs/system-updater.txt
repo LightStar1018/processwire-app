@@ -1,0 +1,19 @@
+2019-11-13 08:37:15	Update #16: Initializing update
+2019-11-13 08:37:17	Update #16: Completed!
+2019-11-13 08:37:29	Update #17: Initializing update
+2019-11-13 08:37:30	Update #17: Skipped: /site/.htaccess (already exists)
+2019-11-13 08:37:30	Update #17: Created: /site/assets/.htaccess
+2019-11-13 08:37:30	Update #17: Skipped: /site/assets/cache/.htaccess (already exists)
+2019-11-13 08:37:30	Update #17: Skipped: /site/assets/backups/.htaccess (already exists)
+2019-11-13 08:37:30	Update #17: Skipped: /site/assets/logs/.htaccess (already exists)
+2019-11-13 08:37:30	Update #17: Created: /site/templates/.htaccess
+2019-11-13 08:37:30	Update #17: Created: /site/modules/.htaccess
+2019-11-13 08:37:30	Update #17: Details: <a href='https://processwire.com/blog/posts/pw-3.0.135/' target='_blank'>https://processwire.com/blog/posts/pw-3.0.135/</a>
+2019-11-13 08:37:30	Update #17: Completed!
+2020-03-18 15:42:00	Changement de version de noyau détectée: 3.0.145 =&gt; 3.0.148
+2022-10-16 11:25:03	Update #18: Initializing update
+2022-10-16 11:25:03	Detected core version change 3.0.148 =&gt; 3.0.184
+2022-10-16 11:25:07	Update #18: Completed!
+2022-10-16 11:25:09	Update #19: Initializing update
+2022-10-16 11:25:09	Update #19: Removed 3 redundant modules table entries
+2022-10-16 11:25:09	Update #19: Completed!

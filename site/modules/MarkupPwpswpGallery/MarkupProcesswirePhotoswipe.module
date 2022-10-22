@@ -1,0 +1,476 @@
+<?php namespace ProcessWire;
+
+      use ProcessWire\MarkupPwpswpGallery;
+
+/**
+ * MarkupProcesswirePhotoswipe
+ *
+ * Photoswipe gallery for processwire
+ * 
+ * @todo legacy module
+ *
+ */
+
+class MarkupProcesswirePhotoswipe extends WireData implements Module, ConfigurableModule {
+
+    private $rootUrl;
+
+    private $moduleUrl;
+
+    public static function getModuleInfo() {
+        return array(
+            'title' => 'Processwire Photoswipe',
+            'author' => 'Steffen Henschel',
+            'version' => '0.99.2',
+            'summary' => __('Easily include Photoswipe by Dmitry Semenov. Comes with markup of a couple of gellery styles.'),
+
+            'permission' => [],
+            'autoload' => true,
+            'singular' => false,
+            'permanent' => false,
+            'requires' => [
+                'ProcessWire>=3.0.0',
+                'PHP>=5.6'
+                // 'MarkupPwpswpGallery'
+            ],
+			'installs' => [
+                'MarkupPwpswpGallery',
+                'MarkupPwpswpGalleryPetersburger',
+                'MarkupPwpswpGalleryFlex',
+                'MarkupPwpswpGalleryHorizontalScroller',
+                'MarkupPwpswpGalleryHorizontalLegacy'
+            ]
+        );
+    }
+
+    static public function getDefaultConfig() {
+        return array(
+            'galleryModule' => 'petersburger',
+            'customSkinCssLocation' => '',
+            'customUiJsLocation' => '',
+            'imageResizerConfig' => "size=500x500\nupscaling=false\ncropping=false\nquality=90",
+            'loresResizerConfig' => "size=320x320\nupscaling=false\ncropping=false\nquality=15",
+            'scriptsMode' => 'auto'
+            );
+    }
+
+    public function __construct() {
+        foreach(self::getDefaultConfig() as $key => $value) {
+            $this->$key = $value;
+        }
+    }
+
+
+
+    /**
+     * init
+     *
+     * @return void
+     */
+    public function init() {
+
+        $this->className = self::className();
+
+        $config = wire('config');
+
+        // do this on autload / first init
+        // else do that when called manually
+        if(!$this->moduleLoaded) {
+
+            $this->addHookAfter("Page::render", $this, 'insertResources');
+            $this->set('moduleLoaded', true);
+
+            // set common paths and urls
+
+            // use reflector class to get actual module location
+            $reflector = new \ReflectionClass('\\' .$this->className(true));
+            $this->moduleUrl = '/'.str_replace([$config->paths->root, $this->className.'.module'], ['', ''], $reflector->getFileName());
+            
+            $this->rootUrl = $config->urls->root;
+
+            // init config
+            $config->set('pwpswpConf', new WireData());
+            $config->pwpswpConf->hookFlag = false;
+            $config->pwpswpConf->scripts = new FilenameArray();
+            $config->pwpswpConf->styles = new FilenameArray();
+
+        } else {
+            // set flag to allow hook to insert all required markup
+            $config->pwpswpConf->hookFlag = true;
+            $this->collectResources($this->galleryModule);
+        }
+    }
+
+
+
+    /**
+     * getGalleryModules
+     *
+     * @return array
+     */
+    static private function getGalleryModules($getObjects = false) {
+        $galleryModules = wire('modules')->findByPrefix('MarkupPwpswpGallery', true);
+        $modulesArray = [];
+        foreach ($galleryModules as $mod) {
+            if($getObjects === true) {
+                $modulesArray[$mod->alias()] = $mod;
+            } else {
+                $modulesArray[$mod->alias()] = $mod->className();
+            }
+        }
+        return $modulesArray;
+    }
+
+
+
+    /**
+     * insertResources
+     *
+     * hook method, inserts all required scripts, styles and markup into page markup
+     *
+     * @param HookEvent $event
+     * @return void
+     */
+    public function insertResources(HookEvent $event) {
+
+        if(wire('config')->pwpswpConf->hookFlag == true) {
+
+            // insert all stylesheet tags into the page header markup
+            $compiledStyleSheets = '';
+            foreach (wire('config')->pwpswpConf->styles as $styleUrl) {
+                if($styleUrl) {
+                    $compiledStyleSheets .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"$styleUrl\">\n";
+                }
+            }
+            $event->return = str_ireplace('</head>', $compiledStyleSheets  .'</head>', $event->return);
+
+            // append all script tags and the photoswipe element to the body
+            $compiledScriptTags = '';
+            foreach (wire('config')->pwpswpConf->scripts as $scriptUrl) {
+                if($scriptUrl) {
+                    $compiledScriptTags .= "<script src=\"$scriptUrl\"></script>\n";
+                }
+            }
+            $event->return = str_ireplace('</body>', $this->getPswpElementMarkup() ."\n" .$compiledScriptTags ."\n</body>", $event->return);
+        }
+    }
+
+
+
+    public function getPswpCoreCssUrl() {
+        return $this->moduleUrl ."photoswipe/photoswipe.css";
+    }
+
+    public function getPswpSkinCssUrl() {
+        if($this->customSkinCssLocation != '') {
+            return $this->rootUrl .ltrim( $this->customSkinCssLocation , '/');
+        } else {
+            return $this->moduleUrl ."photoswipe/default-skin/default-skin.css";
+        }
+    }
+
+    public function getPswpCoreJsUrl() {
+        return  $this->moduleUrl ."photoswipe/photoswipe.min.js";
+    }
+
+    public function getPswpUiJsUrl() {
+        if($this->customUiJsLocation != '') {
+            return $this->rootUrl .ltrim( $this->customUiJsLocation , '/');
+        } else {
+            return $this->moduleUrl ."photoswipe/photoswipe-ui-default.min.js";
+        }
+    }
+
+    public function getPswpInitScriptUrl() {
+        if($this->scriptsMode === 'amd') {
+            return $this->moduleUrl ."pwpswp-amd.js";
+        } else {
+            return $this->moduleUrl ."pwpswp.js";
+        }
+    }
+
+    public function getPswpElementMarkup() {
+        return  file_get_contents(__DIR__ .DIRECTORY_SEPARATOR ."pswp-element.html");
+    }
+
+
+
+    /**
+     * collectResources
+     *
+     * @param string    $theme
+     */
+    private function collectResources($galleryModuleInstance = null) {
+
+        $config = wire('config');
+
+        // Photoswipe stuff
+
+        if($this->scriptsMode === 'auto') {
+            $config->pwpswpConf->scripts->add($this->getPswpCoreJsUrl());
+            $config->pwpswpConf->scripts->add($this->getPswpUiJsUrl());
+            $config->pwpswpConf->scripts->add($this->getPswpInitScriptUrl());
+        }
+        $config->pwpswpConf->styles->add($this->getPswpCoreCssUrl());
+        $config->pwpswpConf->styles->add($this->getPswpSkinCssUrl());
+
+        // Gallery module
+
+        if($galleryModuleInstance instanceof MarkupPwpswpGallery) {
+            $config->pwpswpConf->scripts->add($galleryModuleInstance->getJsUrl());
+            $config->pwpswpConf->styles->add($galleryModuleInstance->getCssUrl());
+        }
+
+        $config->pwpswpConf->scripts->unique();
+        $config->pwpswpConf->styles->unique();
+    }
+
+
+
+     /**
+      * renderGallery
+      *
+      * Render complete gallery markup from image field Pageimages.
+      *
+      * @param  Pageimages      $images         Array of images from image field
+      * @param  array|string    $options        array of options, alternatively galleryAlias string
+      * @param  string          $galleryAlias   alias or class name of gallery, 
+      *                                         deprecated: path to legacy template file
+      * @return void
+      */
+    public function renderGallery($images, $options = [], $galleryAlias = null) {
+
+        // allow 
+        if(gettype($options) === 'string') {
+            $galleryAlias = $options;
+            $options = [];
+        }
+
+        if($images instanceof WireArray || gettype($images) === 'array') {
+
+            // 1.   imageResizerOptions
+            //      ===================
+            //
+            //      merge all kinds of incoming resizer options 
+            //
+            // according to the processwire imageResizerOptions, except:
+            // size is defined like so ['size' => '640x480']
+            //
+            // decode imageResizerConfigurations in default configuration
+            // for a more comprehensible override capability
+            $imageResizerConf = $this->decodeTextareaData($this['imageResizerConfig']);
+            $loresResizerConf = $this->decodeTextareaData($this['loresResizerConfig']);
+
+            // 1.1. merge each with unnamespaced resizerOptions from $options
+            //      convenience feature to declare common settings
+            //      will catch some unrelated options but that doesn't matter ...
+            $options['imageResizerOptions'] = array_merge($imageResizerConf, $options);
+
+            // 1.2. merge with individually namespaced resizerOptions
+            $options['imageResizerOptions'] = array_merge($imageResizerConf, isset($options['imageResizerOptions']) ? $options['imageResizerOptions'] : []);
+            $options['loresResizerOptions'] = array_merge($loresResizerConf, isset($options['loresResizerOptions']) ? $options['loresResizerOptions'] : []);
+
+            // 2.   get gallery module / legacy theme
+            //      =================================
+            //
+            $galleryProbe = null;
+                if(isset($galleryAlias))            { $galleryProbe = $galleryAlias; }
+            elseif(isset($options['galleryAlias'])) { $galleryProbe = $options['galleryAlias']; }
+            elseif(isset($options['gallery']))      { $galleryProbe = $options['gallery']; }
+            elseif(isset($options['theme']))        { $galleryProbe = $options['theme']; }
+            else                                    { $galleryProbe = $this->galleryModule; }
+
+            $galleryModules = $this->getGalleryModules(true);
+            $galleryModuleInstance = null;
+
+            // alias given?
+            if(key_exists($galleryProbe, $galleryModules)) {
+                $galleryModuleInstance = $galleryModules[$galleryProbe];
+            // className given?
+            } else if($galleryModuleInstance = wire('modules')->get($galleryProbe) instanceof MarkupPwpswpGallery) {
+                // ok
+            // else, check for legacy
+            } else {
+                user_error('Theme files are deprecated in MarkupProcesswirePhotoswipe. Please build a module which extends MarkupPwpswpGallery. Falling back using MarkupPwpswpGalleryLegacy.');
+                $galleryModuleInstance = wire('modules')->get('MarkupPwpswpGalleryLegacy');
+                $galleryModuleInstance->setTemplateFile($galleryProbe);
+            }
+
+            // 3.   let's go
+            //      ========
+
+            // init hook and set hook flag to allow hook to insert all required markup
+            // and collect all required scripts and styles
+            wire('config')->pwpswpConf->hookFlag = true;
+            $this->addHookAfter("Page::render", $this, 'insertPwpswpStyleAndScriptMarkup');
+            $this->collectResources($galleryModuleInstance);
+
+            $output = $galleryModuleInstance->render($images, $options);
+            return $output;
+
+        } else {
+            throw new WireException("renderGallery() expects instanceof WireArray or array type.", 1);
+        }
+    }
+
+
+
+    /**
+     * helper functions
+     * 
+     */
+
+
+
+    /**
+     * decodeTextareaData
+     *
+     * @param string $datablob
+     * @return void
+     */
+    private function decodeTextareaData($datablob) {
+        
+        // split lines
+        // https://stackoverflow.com/questions/7058168/explode-textarea-php-at-new-lines
+        $datasplash = preg_split('/\r\n|[\r\n]/', $datablob);
+
+        $dataclean = array();
+
+        foreach ($datasplash as $line) {
+
+            $keyval = explode('=', $line);
+            $key = $keyval[0];
+            $val = $keyval[1];
+
+            // boolean?
+            if($val === "true" || $val === "false") {
+                $val = filter_var($val, FILTER_VALIDATE_BOOLEAN);
+                $dataclean[$key] = $val;
+                continue;
+            }
+
+            // integer?
+            $v = filter_var($val, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
+            if($v !== null) {
+                $val = $v;
+                $dataclean[$key] = $val;
+                continue;
+            }
+
+            $dataclean[$key] = $val;
+        }
+
+        return $dataclean;
+    }
+
+
+
+    /**
+     * Create the modules setting page
+     *
+     */
+    static public function getModuleConfigInputfields(array $data) {
+
+        $modules = wire('modules');
+
+        // merge default config settings (custom values overwrite defaults)
+        $defaults = self::getDefaultConfig();
+        $data = array_merge($defaults, $data);
+
+        $form = new InputfieldWrapper();
+
+        // introduction
+        $field = $modules->get("InputfieldMarkup");
+        $field->name = 'introduction';
+        $field->label = __('Introduction');
+        $field->value = 'Hello';
+        $form->add($field);
+
+        // choose gallery module, legacy theme
+        $field = $modules->get("InputfieldRadios");
+        $field->name = "galleryModule";
+        $field->label = __("Choose gallery module");
+        $field->description = __("Affects gallery markup, style and functionality. Does not affect Photoswipe skin!");
+        $galleryModules = self::getGalleryModules();
+        foreach ($galleryModules as $alias => $className) {
+            if($alias == 'legacy') {
+                continue;
+            }
+            $moduleTitle = $modules->get($className)->getModuleInfo()['title'];
+            $field->addOption($alias, $moduleTitle . " (alias: $alias)");
+        }
+        $field->notes = __("default: \"Petersburger Hängung\"");
+        $field->value = $data['galleryModule'];
+        $form->add($field);
+
+        // custom skin css location
+        $field = $modules->get("InputfieldText");
+        $field->name = "customSkinCssLocation";
+        $field->label = __("Location of custom Photoswipe CSS skin file");
+        // $field->description = "";
+        $field->notes = __("Relative to ProcessWires root folder.");
+        $field->value = $data['customSkinCssLocation'];
+        // $field->width = 75;
+        $form->add($field);
+
+        // custom ui js location
+        $field = $modules->get("InputfieldText");
+        $field->name = "customUiJsLocation";
+        $field->label = __("Location of custom Photoswipe UI js file");
+        // $field->description = "";
+        $field->notes = __("Relative to ProcessWires root folder.");
+        $field->value = $data['customUiJsLocation'];
+        // $field->width = 75;
+        $form->add($field);
+
+        $field = $modules->get("InputfieldTextarea");
+        $field->name = "imageResizerConfig";
+        $field->label = __("Defaults for thumbnail image");
+        // $field->description = "";
+        $field->notes = __("One option per line, according to the following (default) example:\nsize=500x500 (width x height)\nupscaling=false\ncropping=false\nquality=90");
+        $field->value = $data['imageResizerConfig'];
+        // $field->width = 75;
+        $form->add($field);
+
+        $field = $modules->get("InputfieldTextarea");
+        $field->name = "loresResizerConfig";
+        $field->label = __("Defaults for lores preload image");
+        // $field->description = "";
+        $field->notes = __("One option per line, according to the following example:\nsize=320x320 (width x height)\nupscaling=false\ncropping=false\nquality=50");
+        $field->value = $data['loresResizerConfig'];
+        // $field->width = 75;
+        $form->add($field);
+
+        $field = $modules->get("InputfieldRadios");
+        $field->name = "scriptsMode";
+        $field->label = __("Javascript insertion mode");
+        $field->addOptions([
+            'auto' => __("Automatic script insertion"),
+            'manual' => __("Manual script insertion"),
+            'amd' => __("AMD compatible script and manual insertion")
+        ]);
+        $field->notes = __("In case of amd: You will have to initialize the module manually. Init() is exposed.");
+        $field->value = $data['scriptsMode'];
+        $form->add($field);
+
+        return $form;
+    }
+
+
+
+    /**
+     * module installation / deinstallation
+     *
+     */
+    public function ___upgrade($fromVersion, $toVersion) {
+        
+        $toVersionSplit = explode('.', $toVersion);
+        
+        if($toVersionSplit[1] >= 99) {
+            $this->warning("~ was alomst completely rewritten. Everything should work just fine due to a compatibility module. Nevertheless, please check if everything works for you, too. 'Themes' are deprecated now. Please have a look at the readme.");
+        }
+    }
+
+    public function ___install() {}
+    public function ___uninstall() {}
+}

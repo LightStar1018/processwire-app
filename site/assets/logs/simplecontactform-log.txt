@@ -1,0 +1,4 @@
+2022-10-15 22:48:46	admin	https://waveinside.com/en/landings/test/	[FAILURE] Honeypot field was filled. IP: 89.107.10.58
+2022-10-15 22:50:49	admin	https://waveinside.com/en/landings/test/	[FAILURE] Honeypot field was filled. IP: 89.107.10.58
+2022-10-15 22:50:58	admin	https://waveinside.com/en/landings/test/	[FAILURE] Honeypot field was filled. IP: 89.107.10.58
+2022-10-15 22:53:45	admin	https://waveinside.com/en/landings/test/	[FAILURE] Honeypot field was filled. IP: 89.107.10.58

@@ -1,0 +1,81 @@
+{
+    "file": "wire\/modules\/AdminTheme\/AdminThemeReno\/AdminThemeReno.module",
+    "textdomain": "wire--modules--admintheme--adminthemereno--adminthemereno-module",
+    "translations": {
+        "eea889e927448a79d84da81851f9d9cb": {
+            "text": "Taper ici pour effectuer une recherche"
+        },
+        "f0a5fc96d36fdda66a2a10b79be6d7fb": {
+            "text": "Jeu de couleurs"
+        },
+        "d35b51b639528d580362ca7042de6a0e": {
+            "text": "Classique"
+        },
+        "9594eec95be70e7b1710f730fdda33d9": {
+            "text": "Bleu"
+        },
+        "cf64a1df05b0b5640322820b1b705605": {
+            "text": "Champs d'image de l'utilisateur"
+        },
+        "d076186eb326fac94ae60de5b71755d7": {
+            "text": "Pour utiliser cette fonction le mod\u00e8le \u00ab user \u00bb doit comprendre un champs d'image. Si votre mod\u00e8le n'a pas de champs d'image, l'avatar par d\u00e9faut sera une ic\u00f4ne. Pour ajouter un champs d'image au mod\u00e8le user, allez dans Configuration > Mod\u00e8les > Filtres (Afficher les mod\u00e8les syst\u00e8me). Le mod\u00e8le user apparaitra ensuite dans la liste."
+        },
+        "32b92d181457ef3ee601718c6717d21f": {
+            "text": "Aucun champs d'image assign\u00e9 au mod\u00e8le user"
+        },
+        "b30e371dcaa3d2b157ef7566aa157b8a": {
+            "text": "Champs \u00ab %s \u00bb ajout\u00e9 aux champs modifiables par l'utilisateur dans leur profil."
+        },
+        "8f67973007158337346584551b093be8": {
+            "text": "Ic\u00f4nes"
+        },
+        "f69110441f08575ffbedd45591ddc4e1": {
+            "text": "Sp\u00e9cifier les ic\u00f4ne pour les \u00e9l\u00e9ments de navigation"
+        },
+        "a5cf3b1e924454eb5f3b0579e2f40830": {
+            "text": "Navigation du haut : Voir la page d'accueil"
+        },
+        "13884a61afb0a46fc63ee2694d21d16e": {
+            "text": "Navigation du haut : D\u00e9connexion"
+        },
+        "b3d00bda3ff5e34c61a7fa73267eb75c": {
+            "text": "Th\u00e8me pour la panneau d'administration pour ProcessWire 2.5 par Tom Reno (Renobird)"
+        },
+        "787989d17c5a57298dd6959fcc70ba1a": {
+            "text": "Th\u00e8me pour le panneau d'administration pour ProcessWire 2.5+ par Tom Reno (Renobird)"
+        },
+        "77b6e24f5b78b6eb0697aa8994ce15e9": {
+            "text": "="
+        },
+        "3e3780bdd59279494ba0eeed55f551d9": {
+            "text": "Images des utilisateurs"
+        },
+        "bbe7b2d443c26552faeb0e0c7d4541fe": {
+            "text": "Pour utiliser cette fonctionnalit\u00e9, vos mod\u00e8les doivent comprendre un champ image. Si vos mod\u00e8les utilisateurs n'ont pas de champ image, une ic\u00f4ne sera utilis\u00e9e automatiquement au lieu de l'avatar. Pour ajouter un champ image au mod\u00e8le d'utilisateur de page, naviguez vers le menu Configuration > Mod\u00e8les > Filtres et cochez Afficher les mod\u00e8les syst\u00e8me. Le mod\u00e8le \u00ab user \u00bb apparaitra dans la liste. Si vous avez cr\u00e9\u00e9 un mod\u00e8le utilisateur additionnel ou alternatif, vous pouvez activez cette fonctionnalit\u00e9 en ajoutant un champ image \u00e0 ce mod\u00e8le."
+        },
+        "b012c7da60d514a8d126979210fa1f8e": {
+            "text": "Champ image du mod\u00e8le %s"
+        },
+        "20db21c89b31fa16e87dc79c98dd4afb": {
+            "text": "Aucun champ image n'est assign\u00e9 \u00e0 ce mod\u00e8le"
+        },
+        "c89a8fcd5422ef9d592d35af51ad242d": {
+            "text": "Affichage des noms d'utilisateurs"
+        },
+        "713128d7e4e2ab180d2126b0cea259b9": {
+            "text": "Liste s\u00e9par\u00e9e par des virgules de champs \u00e0 utiliser pour afficher le nom dans l'interface d'administration. (e.g.: prenom, nom_famille)"
+        },
+        "ebb4a6d411a325b9c4d626f842cd6ed1": {
+            "text": "Ceux-ci doivent \u00eatre des champs de type texte. Les autres types seront ignor\u00e9s."
+        },
+        "71151aa83128f4189875470f7e2a8d82": {
+            "text": "Afficher le nom du mod\u00e8le %s"
+        },
+        "0fe8dceda2440ee8d71e0ed8869f075d": {
+            "text": "Navigation du haut : Notices"
+        },
+        "c87aacf5673fada1108c9f809d354311": {
+            "text": "D\u00e9connexion"
+        }
+    }
+}

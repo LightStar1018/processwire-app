@@ -1,0 +1,45 @@
+{
+    "file": "wire\/modules\/Process\/ProcessUser\/ProcessUser.module",
+    "textdomain": "wire--modules--process--processuser--processuser-module",
+    "translations": {
+        "a5cd3ed116608dac017f14c046ea56bf": {
+            "text": "R\u00f4les"
+        },
+        "5dee1c6493112af5676354d6c4243fbe": {
+            "text": "L'utilisateur h\u00e9ritera les permissions assign\u00e9es \u00e0 chaque r\u00f4le. Vous pouvez assigner plusieurs r\u00f4les \u00e0 un utilisateur. En acc\u00e9dant \u00e0 une page, il n'h\u00e9ritera que les permissions des r\u00f4les qui sont aussi assign\u00e9s au mod\u00e8le de la page."
+        },
+        "d04d81faf16d84bd95fab030a5bd3ad8": {
+            "text": "Le r\u00f4le \u00ab guest \u00bb est requis"
+        },
+        "1dae534355f564549697cc7da0eee7e7": {
+            "text": "Vous ne pouvez pas retirer le r\u00f4le \u00ab superuser \u00bb \u00e0 vous-m\u00eame."
+        },
+        "a756ba771ff16a33ad921b8f017a7161": {
+            "text": "Vous ne pouvez pas assigner le r\u00f4le \u00ab superuser\u00a0\u00bb"
+        },
+        "f9aae5fda8d810a29f12d1e61b4ab25f": {
+            "text": "Utilisateurs"
+        },
+        "242e1deb2d082e524a63f255f9f08c11": {
+            "text": "G\u00e9rer les utilisateurs du syst\u00e8me"
+        },
+        "4b99fa96a7caeeafc646d0f0a059ea4d": {
+            "text": "%d utilisateur"
+        },
+        "8103e74ea76ab74a0eabfc5d09e6588a": {
+            "text": "%d utilisateurs"
+        },
+        "4d4587e01b893874091ed2bcb940c2a8": {
+            "text": "Vous ne pouvez pas changer ce r\u00f4le"
+        },
+        "903c654a1a01b07cf8dd1567b1b99b3a": {
+            "text": "Vous n'\u00eates pas autoris\u00e9 \u00e0 enlever le r\u00f4le: %s"
+        },
+        "5374d65ce11cc92d3c142cc0249fde0a": {
+            "text": "Vous n'\u00eates pas autoris\u00e9 \u00e0 ajouter le r\u00f4le: %s"
+        },
+        "ba0bf134511b54d35d023da28eb75e39": {
+            "text": "Vous avez enlever des r\u00f4les qui emp\u00eachent votre acc\u00e8s en \u00e9dition \u00e0 cet utilisateur. Ces r\u00f4les ont \u00e9t\u00e9 restaur\u00e9s."
+        }
+    }
+}
